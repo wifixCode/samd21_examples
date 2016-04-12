@@ -1,7 +1,7 @@
 /*
 Using Timer counters in SAMD21
 
-This sketch is based on this example:
+This sketch was based on this example:
 https://forum.arduino.cc/index.php?topic=332275.msg2538251#msg2538251
 
 Ricardo Mena C
@@ -61,7 +61,7 @@ void setup() {
 void loop() {
   double current_second = real_time(REG_TC5_COUNT16_COUNT);
   if( int(current_second) >= 10){
-    reset_start_TCn(TC5);            // reset so never gets above 10 s
+    reset_start_TCn(TC5);            //Reset so never gets above 10s
     stop_TCn(TC5);
     blink();                         //Excecute this function
     start_TCn(TC5);
