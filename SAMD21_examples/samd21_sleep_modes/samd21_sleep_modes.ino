@@ -34,11 +34,14 @@ http://crcibernetica.com
  **********************************************************************************
 */
 
+#include <SERCOM.h>
+
 void setup(){
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
   delay(5000);
   digitalWrite(13, LOW);
+
 }//end setup
 
 void loop(){
@@ -46,6 +49,7 @@ void loop(){
   //If you need DAC or ADC just reenable them
   DAC_disable();
   ADC_disable();  
+  SERCOM0_disable();  
   
   /*
    * Be carefull uncommenting this line!!!It reduce de power consumtion
@@ -77,6 +81,11 @@ void ADC_disable(void){
   while (ADC->STATUS.bit.SYNCBUSY == 1);  
 }//end ADC_disable
 
+void SERCOM0_disable(){
+  SERCOM0->SPI.CTRLA.bit.ENABLE = 0x00;//Disable SERCOM0 port
+  while(SERCOM0->SPI.SYNCBUSY.bit.ENABLE == 1);
+}//end SERCOM0_disable
+
 void DAC_enable(void){
   DAC->CTRLA.bit.ENABLE = 0x01;//Disable digital to analog converter
   while (DAC->STATUS.bit.SYNCBUSY == 1);//Wait for sync
@@ -86,6 +95,11 @@ void ADC_enable(void){
   ADC->CTRLA.bit.ENABLE = 0x01;//Disable analog to digital converter
   while (ADC->STATUS.bit.SYNCBUSY == 1);  
 }//end ADC_disable
+
+void SERCOM0_enable(){
+  SERCOM0->SPI.CTRLA.bit.ENABLE = 0x01; 
+  while(SERCOM0->SPI.SYNCBUSY.bit.ENABLE == 1);
+}
 
 void sleep_modes(uint8_t mode){
 /*
