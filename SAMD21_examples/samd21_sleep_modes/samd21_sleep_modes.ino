@@ -1,4 +1,3 @@
-
 /*
 This sketch just show you how to enter in some sleep mode
 to reduce the power consumption in SAMD21. I use wake up interrupts(WFI)
