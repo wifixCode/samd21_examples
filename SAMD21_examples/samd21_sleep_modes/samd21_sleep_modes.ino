@@ -99,7 +99,7 @@ void ADC_enable(void){
 void SERCOM0_enable(){
   SERCOM0->SPI.CTRLA.bit.ENABLE = 0x01; 
   while(SERCOM0->SPI.SYNCBUSY.bit.ENABLE == 1);
-}
+}//end SERCOM0_enable
 
 void sleep_modes(uint8_t mode){
 /*
