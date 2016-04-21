@@ -34,6 +34,13 @@ http://crcibernetica.com
  **********************************************************************************
 */
 
+/*
+ * IMPORTANT!!!
+ * For more information about sleep modes see
+ * page 123 : 15.6.2.8 Sleep Mode Controller 
+ * in Atmel | SMART SAM D21 [DATASHEET]
+*/
+
 #include <SERCOM.h>
 
 void setup(){
@@ -49,24 +56,12 @@ void loop(){
   //If you need DAC or ADC just reenable them
   DAC_disable();
   ADC_disable();  
-  SERCOM0_disable();  
+  SERCOM0_disable();
+  USB_disable();
   
-  /*
-   * Be carefull uncommenting this line!!!It reduce de power consumtion
-   *Systick handle millis(), micros(), delay() and other timing functions
-    *This like disable Systick, if you don't need clocks or timing
-    *do not touch it
-  */
-  
-  //SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
-
-  /*
-   * For more information about sleep mode see
-   * page 123 : 15.6.2.8 Sleep Mode Controller 
-   * in Atmel | SMART SAM D21 [DATASHEET]
-  */
   //Use one of this functions, not both  
   //normal_sleep_mode(0);//Set your sleep mode
+  RTC->MODE2.CTRL.reg &= ~RTC_MODE2_CTRL_ENABLE;
   deep_sleep_WFI();//Lowest Consumption posible
  
 }
@@ -86,6 +81,21 @@ void SERCOM0_disable(){
   while(SERCOM0->SPI.SYNCBUSY.bit.ENABLE == 1);
 }//end SERCOM0_disable
 
+void USB_disable(){
+  USB->HOST.CTRLA.reg &= ~USB_CTRLA_ENABLE;  
+}//end USB_disable
+
+void SysTick_disable(){
+  /*
+   * Be carefull uncommenting this line!!!It reduce de power consumtion
+   *Systick handle millis(), micros(), delay() and other timing functions
+   *This like disable Systick, if you don't need clocks or timing
+   *do not touch it
+  */
+  SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_ENABLE_Msk;
+  
+}//end SysTick_disable
+
 void DAC_enable(void){
   DAC->CTRLA.bit.ENABLE = 0x01;//Disable digital to analog converter
   while (DAC->STATUS.bit.SYNCBUSY == 1);//Wait for sync
@@ -100,6 +110,15 @@ void SERCOM0_enable(){
   SERCOM0->SPI.CTRLA.bit.ENABLE = 0x01; 
   while(SERCOM0->SPI.SYNCBUSY.bit.ENABLE == 1);
 }//end SERCOM0_enable
+
+void USB_enable(){
+  USB->HOST.CTRLA.reg &= ~USB_CTRLA_ENABLE;
+}//end USB_enable
+
+void SysTick_enable(){
+  //Reanable it with
+  SysTick->CTRL = SysTick_CTRL_CLKSOURCE_Msk | SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
+}//end SysTick_enable
 
 void sleep_modes(uint8_t mode){
 /*
