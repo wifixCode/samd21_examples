@@ -53,7 +53,8 @@ void setup(){
 
 void loop(){
   //This is the way I found to reduce power consumtion M0
-  //If you need DAC or ADC just reenable them
+  //If you need one of this "modules" just use the proper
+  //funtion to reanable it
   DAC_disable();
   ADC_disable();  
   SERCOM0_disable();
