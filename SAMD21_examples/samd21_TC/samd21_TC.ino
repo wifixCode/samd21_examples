@@ -40,6 +40,8 @@ http://crcibernetica.com
  * configure_TCn_clock(TC5, TC5_IRQn, GCM_TC4_TC5);
  * configure_TCn_clock(TC7, TC7_IRQn, GCM_TC6_TC7);
  * 
+ * Note: TC5 is also used in toneAC
+ *
  * Don't forget change your real_time configuration, for example
  * double current_second = real_time(REG_TC3_COUNT16_COUNT);
  * 

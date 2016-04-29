@@ -41,8 +41,6 @@ http://crcibernetica.com
  * in Atmel | SMART SAM D21 [DATASHEET]
 */
 
-#include <SERCOM.h>
-
 void setup(){
   pinMode(13, OUTPUT);
   digitalWrite(13, HIGH);
