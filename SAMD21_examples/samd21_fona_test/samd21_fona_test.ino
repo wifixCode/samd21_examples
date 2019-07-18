@@ -60,8 +60,8 @@ char replybuffer[255];
 	#define fonaserial Serial1
 	#define serial SerialUSB
 #else
-	#define fonaserial Serial
-	#define serial Serial1
+	#define fonaserial Serial1
+	#define serial Serial
 #endif
 
 // Hardware serial is also possible!
@@ -126,7 +126,7 @@ void setup() {
   // network.  Contact your provider for the exact APN, username,
   // and password values.  Username and password are optional and
   // can be removed, but APN is required.
- //fona.setGPRSNetworkSettings(F(""), F(""), F(""));
+ fona.setGPRSNetworkSettings(F("kolbi3g"), F(""), F(""));
 
   // Optionally configure HTTP gets to follow redirects over SSL.
   // Default is not to follow SSL redirects, however if you uncomment
